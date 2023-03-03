@@ -14,7 +14,7 @@ $modx = new modX();
 echo "Initializing manager...\n";
 $modx->initialize('mgr');
 $modx->getService('error','error.modError', '', '');
-$modx->setLogTarget('HTML');
+$modx->setLogTarget('ECHO');
 
 
 
@@ -107,6 +107,16 @@ $modulePath = $componentPath . '/core/components/commerce_donations/src/';
 // Instruct Commerce to load modules from our directory, providing the base namespace and module path twice
 $logLevel = $modx->setLogLevel(modX::LOG_LEVEL_DEBUG);
 $commerce->loadModulesFromDirectory($modulePath, 'modmore\\Commerce_Donations\\', $modulePath);
+$modx->setLogLevel($logLevel);
+
+$modx->addPackage('commerce_donations', $componentPath . '/core/components/commerce_donations/model/');
+$manager = $modx->getManager();
+
+$logLevel = $modx->setLogLevel(modX::LOG_LEVEL_WARN);
+
+$manager->createObjectContainer(comDonation::class);
+$manager->createObjectContainer(comDonationCause::class);
+
 $modx->setLogLevel($logLevel);
 
 // Clear the cache

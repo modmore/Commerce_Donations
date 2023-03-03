@@ -1,11 +1,15 @@
 <?php
 namespace modmore\Commerce_Donations;
 
+use Commerce;
 use modmore\Commerce\Admin\Configuration\About\ComposerPackages;
 use modmore\Commerce\Admin\Sections\SimpleSection;
 use modmore\Commerce\Dispatcher\EventDispatcher;
+use modmore\Commerce\Events\Admin\GeneratorEvent;
 use modmore\Commerce\Events\Admin\PageEvent;
+use modmore\Commerce\Events\Admin\TopNavMenu;
 use modmore\Commerce\Modules\BaseModule;
+use modmore\Commerce_Donations\Admin\Causes;
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
@@ -33,16 +37,44 @@ class Module extends BaseModule {
         $this->adapter->loadLexicon('commerce_donations:default');
 
         // Add the xPDO package, so Commerce can detect the derivative classes
-//        $root = dirname(__DIR__, 2);
-//        $path = $root . '/model/';
-//        $this->adapter->loadPackage('commerce_donations', $path);
+        $path = dirname(__DIR__) . '/model/';
+        $this->adapter->loadPackage('commerce_donations', $path);
+        $this->adapter->loadClass(\comDonationProduct::class);
 
         // Add template path to twig
 //        $root = dirname(__DIR__, 2);
 //        $this->commerce->view()->addTemplatesPath($root . '/templates/');
 
-        // Add composer libraries to the about section (v0.12+)
-        $dispatcher->addListener(\Commerce::EVENT_DASHBOARD_LOAD_ABOUT, [$this, 'addLibrariesToAbout']);
+        // Add some custom pages
+        $dispatcher->addListener(
+            Commerce::EVENT_DASHBOARD_INIT_GENERATOR,
+            function (GeneratorEvent $event) {
+                $generator = $event->getGenerator();
+
+                $generator->addPage('products/donations/causes', Causes::class);
+                $generator->addPage('donations/cause/create', Admin\Cause\Create::class);
+                $generator->addPage('donations/cause/update', Admin\Cause\Update::class);
+                $generator->addPage('donations/cause/duplicate', Admin\Cause\Duplicate::class);
+                $generator->addPage('donations/cause/delete', Admin\Cause\Delete::class);
+            }
+        );
+
+        // Add the causes menu to the products submenu
+        $dispatcher->addListener(
+            Commerce::EVENT_DASHBOARD_GET_MENU,
+            function (TopNavMenu $event) {
+                $items = $event->getItems();
+
+                $items['products']['submenu'][] = [
+                    'name' => $this->adapter->lexicon('commerce_donations.causes_menu'),
+                    'key' => 'products/donations/causes',
+                    'link' => $this->adapter->makeAdminUrl('products/donations/causes'),
+                ];
+
+
+                $event->setItems($items);
+            }
+        );
     }
 
     public function getModuleConfiguration(\comModule $module): array

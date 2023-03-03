@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model package="commerce_donations" baseClass="comSimpleObject" platform="mysql" defaultEngine="InnoDB" version="1.1">
+    <object class="comDonationCause" extends="comSimpleObject" table="commerce_donation_cause">
+        <field key="product" dbtype="int" precision="10" phptype="integer" null="false" default="0" />
+        <field key="name" dbtype="varchar" precision="100" phptype="string" null="false" default="" />
+        <field key="description" dbtype="varchar" precision="190" phptype="string" null="false" default="" />
+        <field key="active" dbtype="tinyint" precision="1" phptype="boolean" null="false" default="0" />
+
+        <field key="goal" formatter="financial" dbtype="int" precision="10" phptype="integer" null="false" default="0" />
+        <field key="goal_period" dbtype="varchar" precision="100" phptype="string" null="false" default="total" />
+        <field key="goal_by" formatter="datetime" dbtype="int" precision="20" phptype="int" null="false" default="0" />
+
+        <field key="donated_total" formatter="financial" dbtype="int" precision="10" phptype="integer" null="false" default="0" />
+        <field key="donated_total_perc" formatter="percentage" dbtype="decimal" precision="20,4" phptype="float" null="false" default="0.00" />
+        <field key="donated_period" formatter="financial" dbtype="int" precision="10" phptype="integer" null="false" default="0" />
+        <field key="donated_period_perc" formatter="percentage" dbtype="decimal" precision="20,4" phptype="float" null="false" default="0.00" />
+        <field key="average_donation" formatter="financial" dbtype="int" precision="10" phptype="integer" null="false" default="0" />
+
+        <field key="suggested_amounts" dbtype="text" phptype="string" null="false" default="" />
+        <field key="allow_arbitrary_amount" dbtype="tinyint" precision="1" phptype="boolean" null="false" default="0" />
+
+        <!-- Soft remove causes -->
+        <field key="removed" dbtype="tinyint" precision="1" phptype="boolean" null="false" default="0" />
+        <field key="removed_on" formatter="datetime" dbtype="int" precision="20" phptype="int" null="false" default="0" />
+        <field key="removed_by" dbtype="tinyint" precision="1" phptype="boolean" null="false" default="0" />
+
+        <index alias="product" name="product" primary="false" unique="false" type="BTREE">
+            <column key="product" length="" collation="A" null="false" />
+        </index>
+        <index alias="name" name="name" primary="false" unique="false" type="BTREE">
+            <column key="name" length="" collation="A" null="false" />
+        </index>
+        <index alias="active" name="active" primary="false" unique="false" type="BTREE">
+            <column key="active" length="" collation="A" null="false" />
+        </index>
+        <index alias="goal" name="goal" primary="false" unique="false" type="BTREE">
+            <column key="goal" length="" collation="A" null="false" />
+        </index>
+        <index alias="goal_by" name="goal_by" primary="false" unique="false" type="BTREE">
+            <column key="goal_by" length="" collation="A" null="false" />
+        </index>
+        <index alias="removed" name="removed" primary="false" unique="false" type="BTREE">
+            <column key="removed" length="" collation="A" null="false" />
+        </index>
+
+        <aggregate alias="Product" class="comDonationProduct" local="product" foreign="id" cardinality="one" owner="foreign" />
+        <composite alias="Donations" class="comDonation" local="id" foreign="cause" cardinality="many" owner="local" />
+    </object>
+
+
+    <object class="comDonation" extends="comSimpleObject" table="commerce_donation">
+        <field key="cause" dbtype="int" precision="10" phptype="integer" null="false" default="0" />
+        <field key="test" dbtype="tinyint" precision="1" phptype="boolean" null="false" default="0" />
+        <field key="order" dbtype="int" precision="10" phptype="integer" null="false" default="0" />
+        <field key="item" dbtype="int" precision="10" phptype="integer" null="false" default="0" />
+        <field key="user" dbtype="int" precision="10" phptype="integer" null="false" default="0" />
+
+        <field key="donated_on" formatter="datetime" dbtype="int" precision="20" phptype="int" null="false" default="0" />
+        <field key="currency" dbtype="varchar" precision="3" phptype="string" null="false" default="" />
+        <field key="amount" formatter="financial" dbtype="int" precision="20" phptype="integer" null="false" default="0" />
+        <field key="amount_ex_tax" formatter="financial" dbtype="int" precision="20" phptype="integer" null="false" default="0" />
+
+        <field key="donor_public" dbtype="tinyint" precision="1" phptype="boolean" null="false" default="0" />
+        <field key="donor_name" dbtype="varchar" precision="100" phptype="string" null="false" default="" />
+        <field key="donor_note" dbtype="text" phptype="string" null="true" default="" />
+
+        <index alias="cause" name="cause" primary="false" unique="false" type="BTREE">
+            <column key="cause" length="" collation="A" null="false" />
+        </index>
+        <index alias="test" name="test" primary="false" unique="false" type="BTREE">
+            <column key="test" length="" collation="A" null="false" />
+        </index>
+        <index alias="order" name="order" primary="false" unique="false" type="BTREE">
+            <column key="order" length="" collation="A" null="false" />
+        </index>
+        <index alias="item" name="item" primary="false" unique="false" type="BTREE">
+            <column key="item" length="" collation="A" null="false" />
+        </index>
+        <index alias="user" name="user" primary="false" unique="false" type="BTREE">
+            <column key="user" length="" collation="A" null="false" />
+        </index>
+        <index alias="donated_on" name="donated_on" primary="false" unique="false" type="BTREE">
+            <column key="donated_on" length="" collation="A" null="false" />
+        </index>
+        <index alias="currency" name="currency" primary="false" unique="false" type="BTREE">
+            <column key="currency" length="" collation="A" null="false" />
+        </index>
+        <index alias="amount" name="amount" primary="false" unique="false" type="BTREE">
+            <column key="amount" length="" collation="A" null="false" />
+        </index>
+        <index alias="amount_ex_tax" name="amount_ex_tax" primary="false" unique="false" type="BTREE">
+            <column key="amount_ex_tax" length="" collation="A" null="false" />
+        </index>
+        <index alias="donor_public" name="donor_public" primary="false" unique="false" type="BTREE">
+            <column key="donor_public" length="" collation="A" null="false" />
+        </index>
+
+        <aggregate alias="Cause" class="comDonationCause" local="cause" foreign="id" cardinality="one" owner="foreign" />
+        <aggregate alias="Order" class="comOrder" local="order" foreign="id" cardinality="one" owner="foreign" />
+        <aggregate alias="Item" class="comOrderItem" local="item" foreign="id" cardinality="one" owner="foreign" />
+        <aggregate alias="User" class="modUser" local="user" foreign="id" cardinality="one" owner="foreign" />
+    </object>
+
+    <object class="comDonationProduct" extends="comProduct">
+        <aggregate alias="Cause" class="comDonationCause" local="target" foreign="id" cardinality="one" owner="foreign" />
+    </object>
+</model>
