@@ -1,0 +1,106 @@
+<div class="donation-box donation-box--inactive">
+    <div class="donation-box__inner">
+        <h2 class="donation-box__name">{{ cause.name }}</h2>
+        {% if cause.image|length > 0 %}
+            <img src="{{ cause.image }}" alt="{{ cause.name }}" class="donation-box__image" onerror="this.style.display = 'none';">
+        {% endif %}
+        {% if cause.description|length > 0 %}
+            <p class="donation-box__description">{{ cause.description|nl2br }}</p>
+        {% endif %}
+
+        <div class="donation-box__progress">
+            {% if cause.goal > 0 %}
+            <div class="donation-box__progress-bar">
+                <div class="donation-box__progress-bar__inner" style="width: {{ cause.donated_period_perc }}%">&nbsp;</div>
+            </div>
+            {% endif %}
+            <p class="donation-box__progress-goal">
+                Raised {{ cause.donated_period_formatted|replace({'.00':''}) }}
+                {% if cause.goal > 0 %}
+                    of {{ cause.goal_formatted|replace({'.00':''}) }} goal
+                {% endif %}
+                {% if cause.goal_period != 'total' %}
+                    {{ lex('commerce_donations.goal_period.this_' ~ cause.goal_period) }},
+                    {{ cause.donated_total_formatted|replace({'.00':''}) }} {{ lex('commerce_donations.goal_period.total') }}
+                {% endif %}
+                {% if cause.goal_period == 'total' and cause.goal_by > 0 %}
+                    needed by {{ cause.goal_by|date('F jS') }}
+                {% endif %}
+            </p>
+        </div>
+
+        {% if errors %}
+        <div class="alert">
+            {{ errors|join('<br>') }}
+        </div>
+        {% endif %}
+
+        <form action="[[~[[*id]]]]" method="post">
+            <input type="hidden" name="donate" value="1">
+            <input type="hidden" name="cause" value="{{ cause.id }}">
+
+            <h3>Support this project</h3>
+            <div class="donation-box__amounts">
+                {# Example for rendering as a dropdown instead #}
+{#                <select name="amount" id="" class="donation-box__amount">#}
+{#                {% for amount in cause.suggested_amounts|split(',') %}#}
+{#                    <option value="{{ amount }}">#}
+{#                        {{ (amount * 100)|format_currency|replace({'.00':''}) }}#}
+{#                    </option>#}
+{#                {% endfor %}#}
+{#                </select>#}
+
+                {% for amount in cause.suggested_amounts|split(',') %}
+                    <div class="donation-box__amount">
+                        <input type="radio" name="amount" value="{{ amount }}" id="donate-{{ cause.id }}-{{ amount }}">
+                        <label for="donate-{{ cause.id }}-{{ amount }}">
+                            {{ (amount * 100)|format_currency|replace({'.00':''}) }}
+                        </label>
+                    </div>
+                {% endfor %}
+
+                {% if cause.allow_arbitrary_amount %}
+                    <div class="donation-box__amount donation-box__amount--custom">
+                        <input type="radio" name="amount" value="custom" id="donate-{{ cause.id }}-custom" onfocus="document.getElementById('donate-{{ cause.id }}-custom-amount').focus()">
+                        <label for="donate-{{ cause.id }}-custom" aria-label="Enter custom amount">
+                            <span>Custom amount:</span>
+                            <input name="amount_custom" type="number" min="1" step="1"
+                                   placeholder="Custom amount"
+                                   onfocus="document.getElementById('donate-{{ cause.id }}-custom').checked = true;"
+                                   id="donate-{{ cause.id }}-custom-amount"
+                                   class="donation-box__amount--custom__input"
+                            >
+                        </label>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="donation-box__details">
+                <div class="donation-box__info donation-box__info--public">
+                    <label for="donate-{{ cause.id }}-public">
+                        <input type="checkbox" name="donor_public" id="donate-{{ cause.id }}-public" class="donation-box__info--public__input" checked>
+                        Show my donation
+                    </label>
+                </div>
+                <div class="donation-box__info donation-box__info--name">
+                    <label for="donate-{{ cause.id }}-name">
+                        Name
+                        <br>
+                        <span>(public, optional)</span>
+                    </label>
+                    <input type="text" name="donor_name" id="donate-{{ cause.id }}-note">
+                </div>
+                <div class="donation-box__info donation-box__info--note">
+                    <label for="donate-{{ cause.id }}-note">
+                        Personal note
+                        <br>
+                        <span>(public, optional)</span>
+                    </label>
+                    <textarea name="donor_note" id="donate-{{ cause.id }}-note"></textarea>
+                </div>
+            </div>
+            <div class="donation-box__action">
+                <button type="submit" class="donation-box__submit">Add donation to cart</button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,25 @@
+{% if donations|length > 0 %}
+    <h3 class="donations--title">Previous Donations</h3>
+    <p class="donations--meta">The average donation is {{ cause.average_donation_formatted }}.</p>
+    <ul class="donations">
+    {% for donation in donations %}
+        <li class="donation">
+            <div class="donation__inner">
+                <p class="donation--name">{{ donation.donor_name|default('Anonymous') }}</p>
+                <div class="donation--info">
+                    <div class="donation--amount">
+                        {{ donation.amount|format_currency(donation.currency) }}
+                    </div>
+                    <div class="donation--date">
+                        {{ donation.donated_on|date('F jS, Y') }}
+                    </div>
+                </div>
+
+                {% if donation.donor_note and random(0,10) > 5 %}
+                    <p class="donation--note">{{ donation.donor_note|nl2br }}</p>
+                {% endif %}
+            </div>
+        </li>
+    {% endfor %}
+    </ul>
+{% endif %}

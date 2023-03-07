@@ -89,6 +89,21 @@ foreach ($settings as $key => $opts) {
     }
 }
 
+if (!createObject(modSnippet::class, [
+    'name' => 'commerce_donations.cause',
+    'static' => true,
+    'static_file' => $componentPath . '/_build/elements/snippets/cause.snippet.php',
+], 'name', true)) {
+    echo "Error creating commerce_donations.cause snippet\n";
+}
+
+if (!createObject(modSnippet::class, [
+    'name' => 'commerce_donations.donations',
+    'static' => true,
+    'static_file' => $componentPath . '/_build/elements/snippets/donations.snippet.php',
+], 'name', true)) {
+    echo "Error creating commerce_donations.donations snippet\n";
+}
 
 $path = $modx->getOption('commerce.core_path', null, MODX_CORE_PATH . 'components/commerce/') . 'model/commerce/';
 $params = ['mode' => $modx->getOption('commerce.mode')];
@@ -116,6 +131,10 @@ $logLevel = $modx->setLogLevel(modX::LOG_LEVEL_WARN);
 
 $manager->createObjectContainer(comDonation::class);
 $manager->createObjectContainer(comDonationCause::class);
+
+$manager->alterField(comDonationCause::class, 'description');
+$manager->addField(comDonationCause::class, 'cart_description', ['after' => 'description']);
+$manager->addField(comDonationCause::class, 'image', ['after' => 'cart_description']);
 
 $modx->setLogLevel($logLevel);
 

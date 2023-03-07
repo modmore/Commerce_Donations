@@ -12,6 +12,21 @@
 class comDonationProduct extends comProduct
 {
     public static $visibleType = false;
+    private ?comDonationCause $cause = null;
 
+    /**
+     * @return comDonationCause|false|null
+     */
+    public function getTarget()
+    {
+        if ($this->cause) {
+            return $this->cause;
+        }
 
+        $this->cause = $this->adapter->getObject(comDonationCause::class, [
+            'id' => $this->get('target'),
+        ]);
+
+        return $this->cause;
+    }
 }

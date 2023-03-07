@@ -1,0 +1,22 @@
+<div class="donation-box donation-box--inactive">
+    <div class="donation-box__inner">
+        <h2 class="donation-box__name">{{ cause.name }}</h2>
+        {% if cause.description|length > 0 %}
+            <p class="donation-box__description">{{ cause.description }}</p>
+        {% endif %}
+
+        <div class="donation-box__progress">
+            <p class="donation-box__progress-goal">
+                Raised {{ cause.donated_period_formatted|replace({'.00':''}) }} of {{ cause.goal_formatted|replace({'.00':''}) }}
+                {% if cause.goal_period != 'total' %}
+                    {{ lex('commerce_donations.goal_period.' ~ cause.goal_period) }}
+                {% endif %}
+            </p>
+            <div class="donation-box__progress-bar">
+                <div class="donation-box__progress-bar__inner" style="width: {{ cause.donated_period_perc }}%">&nbsp;</div>
+            </div>
+        </div>
+
+        <p class="donation-box__status">Fundraising for this cause is currently paused.</p>
+    </div>
+</div>

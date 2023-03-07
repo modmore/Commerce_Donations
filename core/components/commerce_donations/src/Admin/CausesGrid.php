@@ -54,6 +54,7 @@ class CausesGrid extends GridWidget
         return [
             new Column('name', $this->adapter->lexicon('commerce.name'), true, true),
             new Column('goal', $this->adapter->lexicon('commerce_donations.goal'), true, true),
+            new Column('donated_period_formatted', $this->adapter->lexicon('commerce_donations.donated_period'), true, true),
             new Column('donated_total_formatted', $this->adapter->lexicon('commerce_donations.donated_total'), true, true),
             new Column('average_donation_formatted', $this->adapter->lexicon('commerce_donations.average_donation'), true),
         ];
@@ -78,7 +79,10 @@ class CausesGrid extends GridWidget
             $item['goal'] .= '<br><span style="color:#6a6a6a;"><i class="icon icon-calendar"></i> ' . $item['goal_by_formatted'] . '</span>';
         }
 
-        $item['donated_total_formatted'] .= ' <span style="color:#6a6a6a; padding-left: 1em;">' . $item['donated_total_perc_formatted'] . '</span>';
+        if ($cause->get('goal') > 0) {
+            $item['donated_total_formatted'] .= ' <span style="color:#6a6a6a; padding-left: 1em;">' . $item['donated_total_perc_formatted'] . '</span>';
+            $item['donated_period_formatted'] .= ' <span style="color:#6a6a6a; padding-left: 1em;">' . $item['donated_period_perc_formatted'] . '</span>';
+        }
 
         $item['actions'] = [];
 

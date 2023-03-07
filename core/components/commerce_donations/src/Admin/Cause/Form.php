@@ -55,6 +55,7 @@ class Form extends FormWidget
 
     public function afterSave()
     {
-
+        // Update totals after saving as a useful check (i.e. switching test/live mode)
+        $this->record->updateTotals();
     }
 }

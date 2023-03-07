@@ -24,6 +24,8 @@ $xpdo_meta_map['comDonationCause']= array (
     'product' => 0,
     'name' => '',
     'description' => '',
+    'cart_description' => '',
+    'image' => '',
     'active' => 0,
     'goal' => 0,
     'goal_period' => 'total',
@@ -59,8 +61,23 @@ $xpdo_meta_map['comDonationCause']= array (
     ),
     'description' => 
     array (
+      'dbtype' => 'text',
+      'phptype' => 'string',
+      'null' => true,
+      'default' => '',
+    ),
+    'cart_description' => 
+    array (
       'dbtype' => 'varchar',
       'precision' => '190',
+      'phptype' => 'string',
+      'null' => false,
+      'default' => '',
+    ),
+    'image' => 
+    array (
+      'dbtype' => 'varchar',
+      'precision' => '255',
       'phptype' => 'string',
       'null' => false,
       'default' => '',
@@ -289,6 +306,14 @@ $xpdo_meta_map['comDonationCause']= array (
     'Donations' => 
     array (
       'class' => 'comDonation',
+      'local' => 'id',
+      'foreign' => 'cause',
+      'cardinality' => 'many',
+      'owner' => 'local',
+    ),
+    'Perks' => 
+    array (
+      'class' => 'comDonation{erl',
       'local' => 'id',
       'foreign' => 'cause',
       'cardinality' => 'many',
