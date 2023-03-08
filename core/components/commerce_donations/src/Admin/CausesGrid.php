@@ -87,6 +87,13 @@ class CausesGrid extends GridWidget
         $item['actions'] = [];
 
         $item['actions'][] = (new Action())
+            ->setUrl($this->adapter->makeAdminUrl('products/donations/cause/donations', [
+                'cause' => $cause->get('id')
+            ]))
+            ->setTitle($this->adapter->lexicon('commerce_donations.view_donations'))
+            ->setIcon('icon-list');
+
+        $item['actions'][] = (new Action())
             ->setUrl($editLink)
             ->setTitle($this->adapter->lexicon('commerce_donations.edit_cause'))
             ->setIcon('icon-edit');

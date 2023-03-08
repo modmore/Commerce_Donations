@@ -13,6 +13,7 @@ $_lang['commerce_donations.edit_cause'] = 'Edit cause';
 $_lang['commerce_donations.duplicate_cause'] = 'Duplicate cause';
 $_lang['commerce_donations.delete_cause'] = 'Delete cause';
 $_lang['commerce_donations.delete_cause_named'] = 'Delete cause "[[+name]]"?';
+$_lang['commerce_donations.view_donations'] = 'View donations';
 $_lang['commerce_donations.goal'] = 'Goal';
 $_lang['commerce_donations.goal_period'] = 'Time period';
 $_lang['commerce_donations.goal_period_desc'] = 'The time period to count total received donations by. When using a monthly or yearly goal, the total received donations reset on respectively the first day of the month or the first day of the year.';

@@ -13,7 +13,6 @@ use modmore\Commerce\Events\Admin\PageEvent;
 use modmore\Commerce\Events\Admin\TopNavMenu;
 use modmore\Commerce\Events\OrderState;
 use modmore\Commerce\Modules\BaseModule;
-use modmore\Commerce_Donations\Admin\Causes;
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
@@ -56,11 +55,12 @@ class Module extends BaseModule {
             function (GeneratorEvent $event) {
                 $generator = $event->getGenerator();
 
-                $generator->addPage('products/donations/causes', Causes::class);
+                $generator->addPage('products/donations/causes', Admin\Causes::class);
                 $generator->addPage('donations/cause/create', Admin\Cause\Create::class);
                 $generator->addPage('donations/cause/update', Admin\Cause\Update::class);
                 $generator->addPage('donations/cause/duplicate', Admin\Cause\Duplicate::class);
                 $generator->addPage('donations/cause/delete', Admin\Cause\Delete::class);
+                $generator->addPage('products/donations/cause/donations', Admin\Cause\Donations::class);
             }
         );
 
