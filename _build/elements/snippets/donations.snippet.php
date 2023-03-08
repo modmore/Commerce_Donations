@@ -54,7 +54,7 @@ foreach ($modx->getIterator(comDonation::class, $c) as $donation) {
 }
 
 
-$tpl = $scriptProperties['activeTpl'] ?? 'donations/cause/donations.twig';
+$tpl = $scriptProperties['tpl'] ?? 'donations/cause/donations.twig';
 return $view->render($tpl, [
     'cause' => $cause->toArray(),
     'donations' => $donations,
