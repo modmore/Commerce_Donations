@@ -39,8 +39,6 @@ class DonationsGrid extends GridWidget
 
         $count = $this->adapter->getCount('comDonation', $c);
         $this->setTotalCount($count);
-        $c->prepare();
-        $this->adapter->log(1, $c->toSQL());
 
         $c->limit($options['limit'], $options['start']);
         /** @var comDonation[] $collection */
