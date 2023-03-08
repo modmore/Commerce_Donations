@@ -89,3 +89,220 @@ The twig template has access to all the cause properties (see above) for conveni
 - {{ donation.donor_note }}, a custom note entered by the user, if any.
 
 The `commerce_donations.donations` snippet does **not** include the ability to create a new donation and has no different behavior between active and inactive causes.
+
+## Styling
+
+You can style and customise things as you'd like; there are lots of classes in the default output to target.
+
+As an example, we used the following styles during development to make the widget and donation list look decent:
+
+```css
+.donation-box {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid rgba(0,0,0,.1);
+    box-shadow: 0 0 3px rgba(39,44,49,.02),0 5px 22px -6px rgba(39,44,49,.05);
+    border-radius: 4px;
+    background: #fff;
+    /* height: calc(100% - 2rem); */
+    margin: 1rem 0;
+    padding: 2rem;
+    transition: all .3s ease;
+}
+.donation-box__image {
+    float: right;
+    width: 150px;
+    height: 150px;
+    object-fit: fit;
+    border-radius: 10px;
+    box-shadow: 0 0 3px rgba(39,44,49,.02),0 5px 22px -6px rgba(39,44,49,.05);
+    border: 1px solid rgba(0,0,0,.1);
+    margin-left: 1rem;
+    margin-bottom: 1rem;
+}
+.donation-box__name {
+    margin-top: 0;
+    line-height: 1.0;
+}
+.donation-box__description {
+    text-align: justify;
+}
+.donation-box__progress-bar {
+    height: 1.5rem;
+    background-color: #ccc;
+    width: 100%;
+    border-radius: 5px;
+}
+.donation-box__progress-goal {
+    color: #777;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    text-align: center;
+}
+.donation-box__progress-bar__inner {
+    background-color: green;
+    height: 1.5rem;
+    border-radius: 5px;
+    min-width: 5%;
+    max-width: 100%;
+}
+.donation-box__status {
+    color: #777;
+    font-style: italic;
+    margin-bottom: 0;
+}
+.donation-box__amounts {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -1rem;
+}
+.donation-box__amount {
+    position: relative;
+    flex: 1 0 33.33%;
+}
+.donation-box__amount input[type=radio] {
+    position: absolute;
+    top: 0; left: 0; width: 0; height: 0; opacity: 0;
+}
+.donation-box__amount label {
+    display: block;
+    cursor: pointer;
+    border-radius: 5px;
+    color: #153256;
+    border: 1px solid rgba(0,0,0,.1);
+    box-shadow: 0 0 3px rgba(39,44,49,.02),0 5px 22px -6px rgba(39,44,49,.05);
+    transition: all .3s ease;
+    background: #f9fafa;
+    padding: 0.67em 1em;
+    font-size: 1rem;
+    margin-right: 1rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+.donation-box__amount label span {
+    padding-right: 1rem;
+}
+.donation-box__amount input[type=radio]:checked + label {
+    border: 1px solid rgba(31,75,127,.5);
+    box-shadow: 0 0 3px rgba(31,75,127,.1),0 5px 22px -6px rgba(31,75,127,.5);
+    background: #d2e3ee;
+}
+.donation-box__amount--custom {
+    flex: 1 0 67.77%;
+}
+.donation-box__amount--custom label {
+    display: flex;
+    align-items: center;
+}
+.donation-box__amount--custom label input {
+    padding: 0.5rem 0.33rem;
+    margin-left: auto;
+}
+
+.donation-box__details {
+
+}
+.donation-box__info {
+    display: flex;
+    width: 100%;
+    margin-bottom: 1rem;
+}
+.donation-box__info label {
+    width: 30%;
+    padding-right: 1rem;
+}
+.donation-box__info--public {
+    text-align: center;
+}
+.donation-box__info--public label {
+    width: auto;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    color: #777;
+    font-weight: 600;
+}
+.donation-box__info label span {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    color: #777;
+    font-weight: 600;
+}
+.donation-box__info input, .donation-box__info textarea, .donation-box__amount--custom__input  {
+    flex: 1;
+
+    border: 1px solid rgba(0,0,0,.1);
+    box-shadow: 0 0 3px rgba(39,44,49,.02),0 5px 22px -6px rgba(39,44,49,.05);
+    border-radius: 4px;
+    background: #fff;
+    padding: 0.67em 0.5em;
+    font-size: 1rem;
+
+}
+.donation-box__submit {
+    padding: 1rem;
+    width: 100%;
+    border: 1px solid rgba(0,0,0,.1);
+    box-shadow: 0 0 3px rgba(39,44,49,.02),0 5px 22px -6px rgba(39,44,49,.05);
+    border-radius: 4px;
+    background: green;
+    color: white;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+.donation-box__submit:focus, .donation-box__submit:hover {
+    background: darkgreen;
+}
+
+.donations {
+    margin: 1rem 0;
+    padding: 0;
+    list-style-type: none;
+}
+.donation {
+    padding: 1em;
+    border: 1px solid rgba(0,0,0,.1);
+    border-bottom-width: 0;
+    box-shadow: 0 0 3px rgba(39,44,49,.02),0 5px 22px -6px rgba(39,44,49,.05);
+    transition: all .3s ease;
+    background: #f9fafa;
+}
+.donation:first-child {
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+}
+.donation:last-child {
+    border-bottom-width: 1px;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+.donation p {
+    margin: 0;
+}
+.donation__inner {
+
+}
+.donation--name {
+    font-weight: 600;
+    color: #333;
+}
+.donation--info {
+    display: flex;
+    align-items: center;
+}
+.donation--amount {
+    color: #153256;
+    font-weight: 600;
+}
+.donation--date {
+    color: #777;
+    flex: 1;
+    padding-left: 1rem;
+}
+.donation--note {
+    font-size: 0.9rem;
+}
+```
+
