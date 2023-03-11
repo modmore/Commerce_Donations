@@ -1,9 +1,5 @@
 <?php
-/**
- * @var modX $modx
- * @var xPDOTransport $transport
- * @var array $options
- */
+/** @var modX $modx */
 $modx =& $transport->xpdo;
 
 if (!function_exists('checkVersion')) {
@@ -14,7 +10,7 @@ if (!function_exists('checkVersion')) {
      * @param modX $modx
      * @return bool
      */
-    function checkVersion($description, $current, array $definition, $modx): bool
+    function checkVersion($description, $current, array $definition, $modx)
     {
         $pass = true;
         $passGlyph = '✔';
@@ -107,28 +103,6 @@ switch($options[xPDOTransport::PACKAGE_ACTION]) {
             $success = false;
         }
 
-        $extensions = get_loaded_extensions();
-        $modx->log(xPDO::LOG_LEVEL_INFO, 'Checking required PHP extensions...');
-        $required = [
-            'curl', 'dom', 'fileinfo', 'gd', 'hash', 'iconv', 'json', 'libxml',
-            'openssl', 'pcre', 'simplexml', 'soap', 'xml', 'xmlreader', 'xmlwriter',
-            'zip', 'zlib',
-        ];
-        $pass = [];
-        $fail = [];
-        foreach ($required as $requiredExt) {
-            if (in_array($requiredExt, $extensions, true)) {
-                $pass[] = $requiredExt;
-            }
-            else {
-                $fail[] = $requiredExt;
-            }
-        }
-        $modx->log(xPDO::LOG_LEVEL_INFO, '- Enabled: ' . implode(',', $pass));
-        if (count($fail) > 0) {
-            $modx->log(xPDO::LOG_LEVEL_ERROR, '- Missing required extensions: ' . implode(',', $fail));
-            $success = false;
-        }
 
         if ($success) {
             $modx->log(xPDO::LOG_LEVEL_INFO, 'Minimum requirements look good! Visit Extras > Commerce > Configuration > Modules to enable the module after installation.');
@@ -140,7 +114,7 @@ switch($options[xPDOTransport::PACKAGE_ACTION]) {
             ], $modx);
         }
         else {
-            $modx->log(xPDO::LOG_LEVEL_ERROR, 'Your server or MODX installation does not meet the minimum requirements for Commerce. Installation cannot continue.');
+            $modx->log(xPDO::LOG_LEVEL_ERROR, 'Your server or MODX installation does not meet the minimum requirements for this extra. Installation cannot continue.');
         }
 
         break;
