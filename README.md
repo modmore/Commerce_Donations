@@ -7,6 +7,8 @@ Without this extension, it would be necessary to allow dynamic prices through th
 
 With this extension we're making it a lot easier to fundraise with Commerce.
 
+[Also see the documentation here](https://docs.modmore.com/en/Commerce/v1/Modules/Donations/index.html).
+
 ## Setting up the extension
 
 Start by installing Commerce 1.3+ and the extension. It can be downloaded from the modmore.com provider (*soon) and is free to use - though a donation to support its development is of course appreciated. ;)

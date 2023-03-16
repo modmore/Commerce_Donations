@@ -1,5 +1,5 @@
-Donations for Commerce 0.1.0-pl
----------------------------------
-Released on
+Donations for Commerce 1.0.0-pl
+-------------------------------
+Released on 2023-03-16
 
 - First release
