@@ -61,6 +61,9 @@ class Module extends BaseModule {
                 $generator->addPage('donations/cause/duplicate', Admin\Cause\Duplicate::class);
                 $generator->addPage('donations/cause/delete', Admin\Cause\Delete::class);
                 $generator->addPage('products/donations/cause/donations', Admin\Cause\Donations::class);
+                $generator->addPage('donations/donation/create', Admin\Donation\Create::class);
+                $generator->addPage('donations/donation/update', Admin\Donation\Update::class);
+                $generator->addPage('donations/donation/delete', Admin\Donation\Delete::class);
             }
         );
 

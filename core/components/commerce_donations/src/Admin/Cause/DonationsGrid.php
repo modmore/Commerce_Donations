@@ -3,6 +3,7 @@
 namespace modmore\Commerce_Donations\Admin\Cause;
 
 use comDonation;
+use modmore\Commerce\Admin\Util\Action;
 use modmore\Commerce\Admin\Util\Column;
 use modmore\Commerce\Admin\Widgets\GridWidget;
 
@@ -61,9 +62,10 @@ class DonationsGrid extends GridWidget
         ];
     }
 
-    public function prepareItem(comDonation $cause): array
+    public function prepareItem(comDonation $donation): array
     {
-        $item = $cause->toArray();
+        $item = $donation->toArray();
+        $item['actions'] = [];
 
         $item['donated_on'] = $item['donated_on_formatted'];
         $item['amount'] = $item['amount_formatted'];
@@ -78,6 +80,21 @@ class DonationsGrid extends GridWidget
         ])) {
             $orderUrl = $this->adapter->makeAdminUrl('order', ['order' => $order->get('id')]);
             $item['order'] = '<a href="' . $orderUrl . '" class="commerce-ajax-modal">' . $order->get('reference') . '</a>';
+        } else {
+            $item['order'] = $this->adapter->lexicon('commerce_donations.manual');
+            $item['actions'][] = (new Action())
+                ->setUrl($this->adapter->makeAdminUrl('donations/donation/update', [
+                    'id' => $donation->get('id'),
+                ]))
+                ->setTitle($this->adapter->lexicon('commerce_donations.edit_donation'))
+                ->setIcon('icon-edit');
+
+            $item['actions'][] = (new Action())
+                ->setUrl($this->adapter->makeAdminUrl('donations/donation/delete', [
+                    'id' => $donation->get('id'),
+                ]))
+                ->setTitle($this->adapter->lexicon('commerce_donations.delete_donation'))
+                ->setIcon('icon-edit');
         }
 
         return $item;
@@ -87,6 +104,18 @@ class DonationsGrid extends GridWidget
     public function getTopToolbar(array $options = array()): array
     {
         $toolbar = [];
+        $toolbar[] = [
+            'name' => 'add-donation',
+            'title' => $this->adapter->lexicon('commerce_donations.add_donation'),
+            'type' => 'button',
+            'link' => $this->adapter->makeAdminUrl('donations/donation/create', [
+                'cause' => $this->options['cause'],
+            ]),
+            'button_class' => 'commerce-ajax-modal',
+            'icon_class' => 'plus',
+            'modal_title' => $this->adapter->lexicon('commerce_donations.add_donation'),
+            'position' => 'top',
+        ];
 
         $toolbar[] = [
             'name' => 'search_by_name',
