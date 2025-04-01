@@ -1,3 +1,9 @@
+Donations for Commerce 1.1.0-pl
+-------------------------------
+Released on 2025-04-01
+
+- Add ability to add and edit manual donations received elsewhere
+
 Donations for Commerce 1.0.0-pl
 -------------------------------
 Released on 2023-03-16
